@@ -1,0 +1,10 @@
+span{
+  font-weight: bold;
+}
+
+select{
+  padding:10px;
+  margin-right: 20px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 0.5px lightgray;
+}

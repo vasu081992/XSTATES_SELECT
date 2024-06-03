@@ -1,5 +1,6 @@
 import React, { useEffect,useState} from 'react'
 import axios from 'axios'
+import styles from './States.module.css'
 
 function States() {
 
@@ -8,12 +9,15 @@ function States() {
  const [enabledropdown,setEnableDropdown] = useState(true)
  const [cities,setCities ] = useState ([])
  const [selectedCity,setChosenCity] = useState('')
-
+const [citiesData,setCitiesData]= useState([])
 const [enabledropdownCity,setEnableDropdownCity] = useState(true)
+const [enableDropdownData,setEnableDropdownData] = useState(true)
 
+const [ChosenCityData,setChosenCityData] = useState('')
 
 
 console.log("selected country",selectedcountry)
+console.log("selected city",selectedCity)
 
 
   useEffect(()=>{
@@ -63,6 +67,34 @@ console.log("selected country",selectedcountry)
 
 
 
+    useEffect(()=>{
+
+      if(selectedCity){
+    
+      let fetchDataCity = async()=>{
+        try{
+        let urlcity2 = `https://crio-location-selector.onrender.com/country=${selectedcountry}/state=${selectedCity}/cities`;
+        let response =await axios.get(urlcity2);
+        let data = await response; 
+        setCitiesData(data.data)
+        setEnableDropdownData(false)
+       console.log("cities fetched",data.data)
+      }
+      catch(e){
+        console.log("Error occured while fetching cities",e)
+      }
+    }
+  
+      fetchDataCity()
+    }
+    
+  
+    
+      },[selectedCity])
+
+
+
+
 
 
     const handleCountrySelection = (e)=>{
@@ -72,7 +104,12 @@ console.log("selected country",selectedcountry)
 
 
     const handleCitySelection =(e) =>{
+      setChosenCity(e.target.value)
 
+    }
+
+    const handleCitySelectionData = (e)=>{
+      setChosenCityData(e.target.value)
 
     }
 
@@ -111,7 +148,7 @@ console.log("selected country",selectedcountry)
   ):
   (
 <>
-
+<p>Loading data...</p>
 </>
   )
 
@@ -119,6 +156,31 @@ console.log("selected country",selectedcountry)
   }
 </select>
 
+<select name="citiesdata" id="citiesdata" onChange={handleCitySelectionData} disabled={enableDropdownData}>
+  <option value="Select city" defaultValue>Select city</option>
+      {citiesData.length>0? (
+        citiesData.map((city1)=>(
+          <option key={city1} value={city1} >
+            {city1}
+            </option>
+          ))
+  ):
+  (
+<>
+<p>Loading data...</p>
+</>
+  )
+
+
+  }
+</select>
+{
+selectedCity && selectedcountry && ChosenCityData && (
+
+  <p><span>You selected {ChosenCityData}</span>,{selectedCity},{selectedcountry}</p>
+)
+
+}
     </div>
   )
 }
