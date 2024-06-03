@@ -177,7 +177,7 @@ console.log("selected city",selectedState)
 {
 selectedState && selectedcountry && ChosenCityData && (
 
-  <p><span>You selected {ChosenCityData}</span>,{selectedState},{selectedcountry}</p>
+  <span>You selected {ChosenCityData}, {selectedState}, {selectedcountry}</span>
 )
 
 }
