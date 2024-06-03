@@ -7,8 +7,8 @@ function States() {
   const [countries,setCountries ] = useState ([])
   const [selectedcountry,setChosenCountry] = useState('')
  const [enabledropdown,setEnableDropdown] = useState(true)
- const [cities,setCities ] = useState ([])
- const [selectedCity,setChosenCity] = useState('')
+ const [states,setStates ] = useState ([])
+ const [selectedState,setChosenState] = useState('')
 const [citiesData,setCitiesData]= useState([])
 const [enabledropdownCity,setEnableDropdownCity] = useState(true)
 const [enableDropdownData,setEnableDropdownData] = useState(true)
@@ -17,7 +17,7 @@ const [ChosenCityData,setChosenCityData] = useState('')
 
 
 console.log("selected country",selectedcountry)
-console.log("selected city",selectedCity)
+console.log("selected city",selectedState)
 
 
   useEffect(()=>{
@@ -44,12 +44,12 @@ console.log("selected city",selectedCity)
 
     if(selectedcountry){
   
-    let fetchCities = async()=>{
+    let fetchStates = async()=>{
       try{
       let urlcity = `https://crio-location-selector.onrender.com/country=${selectedcountry}/states`;
       let response =await axios.get(urlcity);
       let data = await response; 
-      setCities(data.data)
+      setStates(data.data)
       setEnableDropdownCity(false)
      console.log("cities fetched",data.data)
     }
@@ -58,7 +58,7 @@ console.log("selected city",selectedCity)
     }
   }
 
-    fetchCities()
+  fetchStates()
   }
   
 
@@ -69,11 +69,11 @@ console.log("selected city",selectedCity)
 
     useEffect(()=>{
 
-      if(selectedCity){
+      if(selectedState){
     
       let fetchDataCity = async()=>{
         try{
-        let urlcity2 = `https://crio-location-selector.onrender.com/country=${selectedcountry}/state=${selectedCity}/cities`;
+        let urlcity2 = `https://crio-location-selector.onrender.com/country=${selectedcountry}/state=${selectedState}/cities`;
         let response =await axios.get(urlcity2);
         let data = await response; 
         setCitiesData(data.data)
@@ -90,7 +90,7 @@ console.log("selected city",selectedCity)
     
   
     
-      },[selectedCity])
+      },[selectedState])
 
 
 
@@ -103,8 +103,8 @@ console.log("selected city",selectedCity)
     }
 
 
-    const handleCitySelection =(e) =>{
-      setChosenCity(e.target.value)
+    const handleStateSelection =(e) =>{
+      setChosenState(e.target.value)
 
     }
 
@@ -137,12 +137,12 @@ console.log("selected city",selectedCity)
   </select>
 
 
-    <select name="cities" id="cities" onChange={handleCitySelection} disabled={enabledropdownCity}>
-  <option value="Select city" defaultValue>Select city</option>
-      {cities.length>0? (
-        cities.map((city)=>(
-          <option key={city} value={city} >
-            {city}
+    <select name="states" id="states" onChange={handleStateSelection} disabled={enabledropdownCity}>
+  <option value="Select state" defaultValue>Select state</option>
+      {states.length>0? (
+        states.map((state)=>(
+          <option key={state} value={state} >
+            {state}
             </option>
           ))
   ):
@@ -175,9 +175,9 @@ console.log("selected city",selectedCity)
   }
 </select>
 {
-selectedCity && selectedcountry && ChosenCityData && (
+selectedState && selectedcountry && ChosenCityData && (
 
-  <p><span>You selected {ChosenCityData}</span>,{selectedCity},{selectedcountry}</p>
+  <p><span>You selected {ChosenCityData}</span>,{selectedState},{selectedcountry}</p>
 )
 
 }
